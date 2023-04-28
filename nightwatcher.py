@@ -98,15 +98,21 @@ def check():
                 msg = u"【日志监控】\n应用名:%s\n描述:%s\nIP:%s \n已经近%d分钟没有日志了,请注意!\n%s" % (app_name, app_desc, CHECK_IP, (now_time-last_check_size_time)/60, datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
                 dingmessage(msg)
                 app['check_size_time'] = now_time
+            # 如果日志大小不变，没必要对比异常个数    
+            continue
         else:
             # 文件有变化则更新数据
             app['check_size'] = now_size
             app['check_size_time'] = now_time
         
         # 检查异常次数是否超出范围
-        last_check_exception_count = app.get('check_exception_count', 0)
+        last_check_exception_count = app.get('check_exception_count', -1)
         last_check_exception_time = app.get("check_exception_time", 0)
         now_exception_count = getException(log_path)
+
+        if last_check_exception_count < 0:
+            app['check_exception_count'] = 0
+            continue
 
         if now_exception_count == last_check_exception_count:
             # 异常个数不变则更新时间
