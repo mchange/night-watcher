@@ -1,0 +1,15 @@
+{
+    "change4ok": [
+	
+        {
+            "name": "tomcat-5280",
+            "desc": "活动base_api",
+            "log": "/home/log/base_api.log"
+        },
+        {
+            "name": "tomcat-5180",
+            "desc": "活动market_api",
+            "log": "/home/log/market_api.log"
+        }
+    ]
+}
